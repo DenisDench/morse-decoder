@@ -38,7 +38,21 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    expr = expr.split(/(\d{10})/g)  // строка в массив из строк по 10 символов
+               .join(' ')           // обратно в строку с пробелами
+               .replace(/10/g, '.') // найти и заменить '10' на '.'
+               .replace(/11/g, '-') // найти и заменить '11' на '-'
+               .replace(/00/g, '')  // найти и заменить '00' на ''
+               .replace(/\*{10}/g, '_')
+               .split(' ')          // в массив из готовых символов
+               .map(element => {
+                   if (element == '_') return ' ';
+                   for (let key in MORSE_TABLE) {
+                       if (key == element) return MORSE_TABLE[key];
+                   };
+               })
+               .join('')
+    return expr;
 }
 
 module.exports = {
